@@ -103,3 +103,45 @@ def register():
             else:
                 return "<h3>❌ Invalid credentials</h3>"
         return render_template('admin_login.html')
+    
+
+    #####
+
+    @app.route('/init-db')
+    def init_db():
+        import sqlite3
+        import os
+
+    if not os.path.exists('database'):
+        os.makedirs('database')
+
+    conn = sqlite3.connect('database/students.db')
+    c = conn.cursor()
+
+    # Create students table
+    c.execute('''
+        CREATE TABLE IF NOT EXISTS students (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            phone TEXT NOT NULL,
+            course TEXT,
+            level TEXT,
+            timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+        )
+    ''')
+
+    # Create messages table
+    c.execute('''
+        CREATE TABLE IF NOT EXISTS messages (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            email TEXT NOT NULL,
+            message TEXT NOT NULL,
+            timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+        )
+    ''')
+
+    conn.commit()
+    conn.close()
+
+    return "<h3>✅ Database initialized successfully on Render!</h3>"
