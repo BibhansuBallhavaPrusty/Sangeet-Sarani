@@ -108,9 +108,9 @@ def register():
     #####
 
     @app.route('/init-db')
-    def init_db():
-        import sqlite3
-        import os
+def init_db():
+    import sqlite3
+    import os
 
     if not os.path.exists('database'):
         os.makedirs('database')
@@ -118,7 +118,6 @@ def register():
     conn = sqlite3.connect('database/students.db')
     c = conn.cursor()
 
-    # Create students table
     c.execute('''
         CREATE TABLE IF NOT EXISTS students (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -130,7 +129,6 @@ def register():
         )
     ''')
 
-    # Create messages table
     c.execute('''
         CREATE TABLE IF NOT EXISTS messages (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
