@@ -108,12 +108,12 @@ def register():
     #####
 
     @app.route('/init-db')
-def init_db():
-    import sqlite3
-    import os
+    def init_db():
+        import sqlite3
+        import os
 
-    if not os.path.exists('database'):
-        os.makedirs('database')
+        if not os.path.exists('database'):
+            os.makedirs('database')
 
     conn = sqlite3.connect('database/students.db')
     c = conn.cursor()
