@@ -42,14 +42,33 @@ def contact():
 def register():
     try:
         if request.method == 'POST':
+            print("✅ POST request received")
+
             name = request.form['name']
             phone = request.form['phone']
             course = request.form['course']
             level = request.form['level']
 
-            # Ensure this path exists
+            # Create database directory if it doesn't exist
+            import os
+            if not os.path.exists('database'):
+                os.makedirs('database')
+
             conn = sqlite3.connect('database/students.db')
             c = conn.cursor()
+
+            # Ensure table exists
+            c.execute('''
+                CREATE TABLE IF NOT EXISTS students (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    name TEXT NOT NULL,
+                    phone TEXT NOT NULL,
+                    course TEXT,
+                    level TEXT,
+                    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+                )
+            ''')
+
             c.execute("INSERT INTO students (name, phone, course, level) VALUES (?, ?, ?, ?)",
                       (name, phone, course, level))
             conn.commit()
@@ -60,5 +79,5 @@ def register():
         return render_template('register.html')
 
     except Exception as e:
-        # Show the exact error in the browser
-        return f"<h1>500 - Internal Server Error</h1><p>{str(e)}</p>"
+        import traceback
+        return f"<h1>500 - Internal Server Error</h1><pre>{traceback.format_exc()}</pre>"
