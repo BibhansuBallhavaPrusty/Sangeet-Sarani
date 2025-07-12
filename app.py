@@ -40,25 +40,25 @@ def contact():
 # === REGISTER PAGE ===
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    if request.method == 'POST':
-        name = request.form['name']
-        phone = request.form['phone']
-        course = request.form['course']
-        level = request.form['level']
+    try:
+        if request.method == 'POST':
+            name = request.form['name']
+            phone = request.form['phone']
+            course = request.form['course']
+            level = request.form['level']
 
-        conn = sqlite3.connect('database/students.db')
-        c = conn.cursor()
-        c.execute("INSERT INTO students (name, phone, course, level) VALUES (?, ?, ?, ?)",
-                  (name, phone, course, level))
-        conn.commit()
-        conn.close()
+            # Ensure this path exists
+            conn = sqlite3.connect('database/students.db')
+            c = conn.cursor()
+            c.execute("INSERT INTO students (name, phone, course, level) VALUES (?, ?, ?, ?)",
+                      (name, phone, course, level))
+            conn.commit()
+            conn.close()
 
-        return redirect(url_for('home'))
-    return render_template('register.html')
+            return redirect(url_for('home'))
 
-if __name__ == '__main__':
-    # Create database folder if not exists
-    if not os.path.exists('database'):
-        os.makedirs('database')
-    app.run(debug=True)
-    
+        return render_template('register.html')
+
+    except Exception as e:
+        # Show the exact error in the browser
+        return f"<h1>500 - Internal Server Error</h1><p>{str(e)}</p>"
