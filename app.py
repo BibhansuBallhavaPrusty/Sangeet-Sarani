@@ -2,6 +2,9 @@ from flask import Flask, render_template, request, redirect, url_for
 import sqlite3
 import os
 
+DB_FOLDER = os.path.join(os.path.dirname(__file__), 'database')
+DB_PATH = os.path.join(DB_FOLDER, 'students.db')
+
 app = Flask(__name__)
 
 # === HOME PAGE ===
@@ -30,7 +33,8 @@ def contact():
         if not os.path.exists('database'):
             os.makedirs('database')
 
-        conn = sqlite3.connect('database/students.db')
+        conn = DB_PATH = os.path.join(os.path.dirname(__file__), 'database', 'students.db')
+        sqlite3.connect(DB_PATH)
         c = conn.cursor()
 
         c.execute('''
@@ -65,7 +69,8 @@ def register():
             if not os.path.exists('database'):
                 os.makedirs('database')
 
-            conn = sqlite3.connect('database/students.db')
+            conn = DB_PATH = os.path.join(os.path.dirname(__file__), 'database', 'students.db')
+            sqlite3.connect(DB_PATH)
             c = conn.cursor()
 
             c.execute('''
@@ -111,7 +116,8 @@ def admin_login():
 
 @app.route('/admin')
 def admin_dashboard():
-    conn = sqlite3.connect('database/students.db')
+    conn = DB_PATH = os.path.join(os.path.dirname(__file__), 'database', 'students.db')
+    sqlite3.connect(DB_PATH)
     c = conn.cursor()
 
     c.execute("SELECT * FROM students")
@@ -131,7 +137,8 @@ def init_db():
     if not os.path.exists('database'):
         os.makedirs('database')
 
-    conn = sqlite3.connect('database/students.db')
+    conn = DB_PATH = os.path.join(os.path.dirname(__file__), 'database', 'students.db')
+    sqlite3.connect(DB_PATH)
     c = conn.cursor()
 
     c.execute('''
