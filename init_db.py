@@ -1,4 +1,9 @@
 import sqlite3
+import os
+
+# ✅ Ensure the folder exists
+if not os.path.exists('database'):
+    os.makedirs('database')
 
 conn = sqlite3.connect('database/students.db')
 c = conn.cursor()

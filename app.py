@@ -27,6 +27,10 @@ def contact():
         email = request.form['email']
         message = request.form['message']
 
+        # ✅ Ensure folder exists before using the DB
+        if not os.path.exists('database'):
+            os.makedirs('database')
+
         conn = sqlite3.connect('database/students.db')
         c = conn.cursor()
         c.execute("INSERT INTO messages (name, email, message) VALUES (?, ?, ?)",
@@ -81,3 +85,21 @@ def register():
     except Exception as e:
         import traceback
         return f"<h1>500 - Internal Server Error</h1><pre>{traceback.format_exc()}</pre>"
+    
+
+    @app.route('/admin-login', methods=['GET', 'POST'])
+    def admin_login():
+        if request.method == 'POST':
+            username = request.form['username']
+            password = request.form['password']
+            # Simple static auth
+            if username == 'admin' and password == 'admin123':
+                conn = sqlite3.connect('database/students.db')
+                c = conn.cursor()
+                students = c.execute('SELECT * FROM students').fetchall()
+                messages = c.execute('SELECT * FROM messages').fetchall()
+                conn.close()
+                return render_template('admin.html', students=students, messages=messages)
+            else:
+                return "<h3>❌ Invalid credentials</h3>"
+        return render_template('admin_login.html')
