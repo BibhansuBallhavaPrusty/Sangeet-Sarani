@@ -27,40 +27,47 @@ def contact():
         email = request.form['email']
         message = request.form['message']
 
-        # ✅ Ensure folder exists before using the DB
         if not os.path.exists('database'):
             os.makedirs('database')
 
         conn = sqlite3.connect('database/students.db')
         c = conn.cursor()
-        c.execute("INSERT INTO messages (name, email, message) VALUES (?, ?, ?)",
-                  (name, email, message))
+
+        c.execute('''
+            CREATE TABLE IF NOT EXISTS messages (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL,
+                email TEXT NOT NULL,
+                message TEXT NOT NULL,
+                timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+            )
+        ''')
+
+        c.execute("INSERT INTO messages (name, email, message) VALUES (?, ?, ?)", (name, email, message))
         conn.commit()
         conn.close()
 
         return redirect(url_for('home'))
+
     return render_template('contact.html')
+
 
 # === REGISTER PAGE ===
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     try:
         if request.method == 'POST':
-            print("✅ POST request received")
-
             name = request.form['name']
             phone = request.form['phone']
             course = request.form['course']
             level = request.form['level']
 
-            # Ensure folder exists
             if not os.path.exists('database'):
                 os.makedirs('database')
 
             conn = sqlite3.connect('database/students.db')
             c = conn.cursor()
 
-            # Ensure table exists
             c.execute('''
                 CREATE TABLE IF NOT EXISTS students (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -83,37 +90,46 @@ def register():
 
     except Exception as e:
         import traceback
-        print("❌ ERROR:", traceback.format_exc())  # Print to terminal or Render logs
         return f"<h1>500 - Internal Server Error</h1><pre>{traceback.format_exc()}</pre>"
-    
-##
-    @app.route('/admin-login', methods=['GET', 'POST'])
-    def admin_login():
-        if request.method == 'POST':
-            username = request.form['username']
-            password = request.form['password']
-            # Simple static auth
-            if username == 'admin' and password == 'admin123':
-                conn = sqlite3.connect('database/students.db')
-                c = conn.cursor()
-                students = c.execute('SELECT * FROM students').fetchall()
-                messages = c.execute('SELECT * FROM messages').fetchall()
-                conn.close()
-                return render_template('admin.html', students=students, messages=messages)
-            else:
-                return "<h3>❌ Invalid credentials</h3>"
-        return render_template('admin_login.html')
-    
 
-    #####
 
-    @app.route('/init-db')
-    def init_db():
-        import sqlite3
-        import os
+# === ADMIN LOGIN & DASHBOARD ===
+@app.route('/admin-login', methods=['GET', 'POST'])
+def admin_login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
 
-        if not os.path.exists('database'):
-            os.makedirs('database')
+        # You can replace this with better auth later
+        if username == 'admin' and password == 'password':
+            return redirect(url_for('admin_dashboard'))
+        else:
+            return "<h3>Invalid credentials</h3>"
+
+    return render_template('admin_login.html')
+
+
+@app.route('/admin')
+def admin_dashboard():
+    conn = sqlite3.connect('database/students.db')
+    c = conn.cursor()
+
+    c.execute("SELECT * FROM students")
+    students = c.fetchall()
+
+    c.execute("SELECT * FROM messages")
+    messages = c.fetchall()
+
+    conn.close()
+
+    return render_template('admin.html', students=students, messages=messages)
+
+
+# === DATABASE INITIALIZER FOR RENDER ===
+@app.route('/init-db')
+def init_db():
+    if not os.path.exists('database'):
+        os.makedirs('database')
 
     conn = sqlite3.connect('database/students.db')
     c = conn.cursor()
@@ -143,3 +159,8 @@ def register():
     conn.close()
 
     return "<h3>✅ Database initialized successfully on Render!</h3>"
+
+
+# === RUN APP LOCALLY ===
+if __name__ == '__main__':
+    app.run(debug=True)
