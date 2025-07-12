@@ -53,8 +53,7 @@ def register():
             course = request.form['course']
             level = request.form['level']
 
-            # Create database directory if it doesn't exist
-            import os
+            # Ensure folder exists
             if not os.path.exists('database'):
                 os.makedirs('database')
 
@@ -84,9 +83,10 @@ def register():
 
     except Exception as e:
         import traceback
+        print("❌ ERROR:", traceback.format_exc())  # Print to terminal or Render logs
         return f"<h1>500 - Internal Server Error</h1><pre>{traceback.format_exc()}</pre>"
     
-
+##
     @app.route('/admin-login', methods=['GET', 'POST'])
     def admin_login():
         if request.method == 'POST':
