@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2 class="text-3xl font-bold mb-6 animate__animated animate__fadeIn">Meet Our Gurus</h2>
+
+<div class="grid md:grid-cols-2 gap-6">
+    <div class="bg-white p-5 rounded-lg shadow-lg flex items-center animate__animated animate__fadeInLeft">
+        <img src="/static/images/guru1.jpg" alt="Guru 1" class="w-28 h-28 rounded-full mr-4">
+        <div>
+            <h3 class="text-xl font-semibold">Shri Puspansu Ballav Prusty</h3>
+            <p>Vocal Maestro, Visharad in Hindustani Classical. 25+ years of teaching.</p>
+        </div>
+    </div>
+    <div class="bg-white p-5 rounded-lg shadow-lg flex items-center animate__animated animate__fadeInRight animate__delay-1s">
+        <img src="/static/images/guru2.jpg" alt="Guru 2" class="w-28 h-28 rounded-full mr-4">
+        <div>
+            <h3 class="text-xl font-semibold">Shri [Uncle's Name]</h3>
+            <p>Tabla Expert & Exam Coordinator, 20+ years of experience.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

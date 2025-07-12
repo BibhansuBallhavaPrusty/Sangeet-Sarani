@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="text-3xl font-bold mb-4">Admin Dashboard</h2>
+
+<h3 class="text-xl font-semibold mt-6">Registered Students</h3>
+<table class="w-full border mt-2 text-sm">
+    <tr><th>Name</th><th>Phone</th><th>Course</th><th>Level</th><th>Time</th></tr>
+    {% for s in students %}
+    <tr><td>{{s[1]}}</td><td>{{s[2]}}</td><td>{{s[3]}}</td><td>{{s[4]}}</td><td>{{s[5]}}</td></tr>
+    {% endfor %}
+</table>
+
+<h3 class="text-xl font-semibold mt-6">Contact Messages</h3>
+<table class="w-full border mt-2 text-sm">
+    <tr><th>Name</th><th>Email</th><th>Message</th><th>Time</th></tr>
+    {% for m in messages %}
+    <tr><td>{{m[1]}}</td><td>{{m[2]}}</td><td>{{m[3]}}</td><td>{{m[4]}}</td></tr>
+    {% endfor %}
+</table>
+{% endblock %}

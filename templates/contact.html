@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2 class="text-3xl font-bold mb-6 animate__animated animate__fadeIn">Contact Us</h2>
+
+<div class="grid md:grid-cols-2 gap-8">
+    <div class="animate__animated animate__fadeInLeft">
+        <h3 class="text-xl font-semibold mb-2">📍 Address</h3>
+        <p>Raga Sangeet Vidyalaya<br>At/Po: Banarpal, Dist: Angul, Odisha</p>
+
+        <h3 class="text-xl font-semibold mt-6 mb-2">📞 Phone</h3>
+        <p>+91-9937380299</p>
+
+        <h3 class="text-xl font-semibold mt-6 mb-2">📧 Email</h3>
+        <p>puspansu@gmail.com</p>
+    </div>
+
+    <div class="bg-white p-6 rounded-lg shadow-lg animate__animated animate__fadeInRight">
+        <form action="/contact" method="POST">
+            <label class="block mb-2 font-semibold">Your Name</label>
+            <input type="text" name="name" class="w-full p-2 border border-gray-300 rounded mb-4" required>
+
+            <label class="block mb-2 font-semibold">Email</label>
+            <input type="email" name="email" class="w-full p-2 border border-gray-300 rounded mb-4" required>
+
+            <label class="block mb-2 font-semibold">Message</label>
+            <textarea name="message" rows="4" class="w-full p-2 border border-gray-300 rounded mb-4" required></textarea>
+
+            <button class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition">
+                Send Message
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}

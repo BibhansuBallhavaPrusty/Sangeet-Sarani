@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sangeet Sarani</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <!-- Navbar -->
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex justify-between">
+                <div class="flex space-x-4">
+                    <a href="/" class="text-2xl font-bold py-5 px-2 text-indigo-600">🎶 Raga Sangeet</a>
+                    <div class="hidden md:flex items-center space-x-1">
+    <a href="/courses" class="py-5 px-3 hover:text-indigo-500">Courses</a>
+    <a href="/faculty" class="py-5 px-3 hover:text-indigo-500">Faculty</a>
+    <a href="/contact" class="py-5 px-3 hover:text-indigo-500">Contact</a>
+    <a href="/register" class="py-5 px-3 hover:text-indigo-500 font-semibold text-indigo-600">Register</a>
+</div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container mx-auto p-6">
+        {% block content %}{% endblock %}
+    </div>
+
+    <footer class="bg-white mt-10 p-4 text-center text-sm text-gray-500">
+        © 2025 Sangeet Sarani. All rights reserved.
+    </footer>
+
+</body>
+</html>

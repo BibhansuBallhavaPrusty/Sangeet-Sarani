@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="text-3xl font-bold mb-6">Student Registration</h2>
+
+<form method="POST" class="max-w-lg mx-auto bg-white p-6 rounded shadow-md">
+    <label class="block mb-2 font-semibold">Name</label>
+    <input type="text" name="name" required class="w-full p-2 border border-gray-300 rounded mb-4">
+
+    <label class="block mb-2 font-semibold">Phone</label>
+    <input type="text" name="phone" required class="w-full p-2 border border-gray-300 rounded mb-4">
+
+    <label class="block mb-2 font-semibold">Course</label>
+    <select name="course" class="w-full p-2 border border-gray-300 rounded mb-4">
+        <option>Vocal – Classical</option>
+        <option>Harmonium</option>
+        <option>Tabla</option>
+        <option>Exam Prep</option>
+    </select>
+
+    <label class="block mb-2 font-semibold">Level</label>
+    <select name="level" class="w-full p-2 border border-gray-300 rounded mb-4">
+        <option>Beginner</option>
+        <option>Intermediate</option>
+        <option>Advanced</option>
+    </select>
+
+    <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition">
+        Register
+    </button>
+</form>
+{% endblock %}
